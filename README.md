@@ -43,5 +43,5 @@ Click 'Speech-to-Text' to generate transcription results. (The first time requir
 Click 'Text Summary' to summarize the transcription results using the selected summarization model.  
 
 Audio results are saved in the ```temp``` folder.  
-Transcription and summary results are saved in the ```result/{video_name}``` folder.
+Transcription and summary results are saved in the ```result/{video_name}``` folder.  
 Click 'Stop' to clear the temp folder."  
