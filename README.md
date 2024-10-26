@@ -28,3 +28,20 @@ Run the tool
 ```bash
 python main.py
 ```
+
+
+"Click or drag a video into the 'Open video' button to select a video.  
+
+You can choose a speech recognition model and a summarization model. The summarization model is downloaded from Ollama.  
+
+The source language is the language of the video, while the target language is the language in which the summarization results will be displayed.  
+
+The right-side prompt includes some built-in prompts. Please select one according to your needs, or you can customize it.  
+
+Click 'Speech-to-Text' to generate transcription results. (The first time requires downloading the Whisper model, which may take some time. To check the download progress, please view the terminal.)  
+
+Click 'Text Summary' to summarize the transcription results using the selected summarization model.  
+
+Audio results are saved in the ```temp``` folder.  
+Transcription and summary results are saved in the ```result/{video_name}``` folder.
+Click 'Stop' to clear the temp folder."  

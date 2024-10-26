@@ -2,8 +2,9 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from whisper.asr import load_model
 
 class SpeechRecognitionThread(QThread):
-    progress_updated = pyqtSignal(int)  # Signal to update the progress bar
-    recognition_complete = pyqtSignal(dict)  # Signal to indicate recognition completion
+    progress_updated = pyqtSignal(int)
+    recognition_complete = pyqtSignal(dict)
+    status_updated = pyqtSignal(str)
 
     LANGUAGE_MAP = {
         "日本語": "ja",
@@ -29,6 +30,7 @@ class SpeechRecognitionThread(QThread):
             language=self.language,
             download_root="model"
         )
+        self.status_updated.emit("Speech transcription...")
 
         def progress_callback(progress):
             # print(f"Progress: {progress}%")  # Debugging print

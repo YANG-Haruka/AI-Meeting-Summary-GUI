@@ -427,6 +427,29 @@
        <string>Edit</string>
       </property>
      </widget>
+     <widget class="QLabel" name="sum_model_text_2">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>460</y>
+        <width>200</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Prompt</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="online">
      <widget class="QLabel" name="model_2">

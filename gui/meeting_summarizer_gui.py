@@ -165,7 +165,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.extract_audio_thread.start()
 
     def start_speech_recognition(self, audio_file):
-        self.status.setText("Speech transcription...")
+        self.status.setText("Extracting audio complete.")
         self.progressBar.setValue(0)
 
         whisper_arch = self.au_model.currentText()
@@ -174,6 +174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.speech_recognition_thread = SpeechRecognitionThread(audio_file, whisper_arch, language, self.cuda_available)
         self.speech_recognition_thread.progress_updated.connect(self.update_progress)
         self.speech_recognition_thread.recognition_complete.connect(self.on_recognition_complete)
+        self.speech_recognition_thread.status_updated.connect(self.update_status_label)
         self.speech_recognition_thread.start()
 
     def on_recognition_complete(self, transcription_result):
