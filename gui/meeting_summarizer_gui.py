@@ -14,6 +14,8 @@ from .diarization_thread import DiarizationThread
 from .summary_thread import SummaryThread
 from summary.ollama_bot import populate_sum_model
 
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
 
 LANGUAGE_MAP = {
     "日本語": "ja",

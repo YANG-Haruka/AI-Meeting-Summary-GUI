@@ -1,5 +1,4 @@
 from PyQt5.QtCore import QThread, pyqtSignal
-import torch
 from whisper.asr import load_model
 
 class SpeechRecognitionThread(QThread):

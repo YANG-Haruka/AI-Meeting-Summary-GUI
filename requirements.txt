@@ -1,0 +1,12 @@
+#pyside6-fluent-widgets
+#pyside6
+
+PyQt5
+faster-whisper
+ffmpeg-python
+transformers
+pandas
+ollama
+pyannote.audio
+
+

@@ -1,5 +1,4 @@
 from PyQt5.QtCore import QThread, pyqtSignal
-import pandas as pd
 from whisper.diarize import DiarizationPipeline, assign_word_speakers
 
 class DiarizationThread(QThread):
