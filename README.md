@@ -1,7 +1,10 @@
 # AI-Meeting-Summary-GUI
 
 You need to install CUDA and cuDNN
-(Currently there are no problems with 11.7 and 12.1 tests)
+(Currently there are no problems with 11.7 and 12.1 tests)  
+
+To extract audio, you need to download ffmpeg  
+https://www.ffmpeg.org/
 
 You need to download ollama and download the model for summarization  
 
