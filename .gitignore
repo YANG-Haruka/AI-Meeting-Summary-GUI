@@ -1,0 +1,10 @@
+# Ignore model temp folder
+model/ 
+temp/
+result/
+__pycache__/
+
+# Ignore all .wav files
+*.wav
+
+test*
