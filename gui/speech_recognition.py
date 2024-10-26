@@ -22,6 +22,7 @@ class SpeechRecognitionThread(QThread):
         """
         Run the speech recognition model and emit progress.
         """
+        self.status_updated.emit("Model Downloading...")
         model = load_model(
             whisper_arch=self.whisper_arch,
             device=self.device,
@@ -30,7 +31,7 @@ class SpeechRecognitionThread(QThread):
         )
 
         def progress_callback(progress):
-            print(f"Progress: {progress}%")  # Debugging print
+            # print(f"Progress: {progress}%")  # Debugging print
             self.progress_updated.emit(int(progress))
 
         # Transcribe audio and track progress

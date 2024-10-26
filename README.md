@@ -8,7 +8,7 @@ You need to download ollama and download the model for summarization
 Download Ollama  
 https://ollama.com/  
 
-Download model(For example llama3.1) 
+Download model (For example llama3.1) 
 ```bash
 ollama pull llama3.1
 ```
