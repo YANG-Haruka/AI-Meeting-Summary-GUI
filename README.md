@@ -18,7 +18,7 @@ ollama pull llama3.1
 
 Create and start a virtual environment
 ```bash
-conda activate -n ai-meeting python=3.10
+conda create -n ai-meeting python=3.10
 conda activate ai-meeting
 ```
 
