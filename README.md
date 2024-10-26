@@ -16,6 +16,12 @@ Download model (For example llama3.1)
 ollama pull llama3.1
 ```
 
+Create and start a virtual environment
+```bash
+conda activate -n ai-meeting python=3.10
+conda activate ai-meeting
+```
+
 Install torch
 ```bash
 pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu121
