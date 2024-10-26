@@ -3,9 +3,11 @@
 You need to install CUDA and cuDNN
 (Currently there are no problems with 11.7 and 12.1 tests)
 
-You need to download ollama and download the model for summarization
-Download Ollama 
-https://ollama.com/
+You need to download ollama and download the model for summarization  
+
+Download Ollama  
+https://ollama.com/  
+
 Download model(For example llama3.1) 
 ```bash
 ollama pull llama3.1
