@@ -141,7 +141,11 @@ if __name__ == "__main__":
             with gr.Column():
                 # Speech to Text Module
                 gr.Markdown("## Speech to Text")
-                video_input = gr.Video(label="Upload a video file")
+                video_input = gr.Video(
+                    label="Upload a video file",
+                    type="file",
+                    format=["mp4", "avi", "mov", "mkv", "flv", "wmv", "webm", "mpeg", "mpg", "3gp", "m4v"]
+                )
                 whisper_model_input = gr.Dropdown(choices=whisper_models, label="Select a Whisper model", value=whisper_models[0])
                 source_language_input = gr.Dropdown(choices=["English", "日本語", "中文"], label="Source Language", value="English")
 
