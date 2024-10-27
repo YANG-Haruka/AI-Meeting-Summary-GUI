@@ -9,8 +9,8 @@ from online.speech_recognition import run_speech_recognition
 from online.summary_thread import generate_summary
 from summary.ollama_bot import populate_sum_model
 
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
 
 LANGUAGE_MAP = {
     "日本語": "ja",
@@ -18,7 +18,8 @@ LANGUAGE_MAP = {
     "English": "en"
 }
 
-def save_transcription_with_speakers(transcription_result, output_dir="result/text", output_file="transcription_diarized.json"):
+def save_transcription_with_speakers(transcription_result, video_name, output_file="transcription.json"):
+    output_dir = os.path.join("result", video_name)
     os.makedirs(output_dir, exist_ok=True)
     file_path = os.path.join(output_dir, output_file)
     with open(file_path, "w", encoding="utf-8") as f:
@@ -26,6 +27,10 @@ def save_transcription_with_speakers(transcription_result, output_dir="result/te
     return file_path
 
 def speech2text(video_file, whisper_model_name, source_language, progress=gr.Progress()):
+    if not video_file:
+        return "No video selected", None
+
+    video_name = os.path.splitext(os.path.basename(video_file))[0]
     temp_dir = "temp"
     os.makedirs(temp_dir, exist_ok=True)
     audio_file = os.path.join(temp_dir, "extracted_audio.wav")
@@ -63,7 +68,7 @@ def speech2text(video_file, whisper_model_name, source_language, progress=gr.Pro
         status_callback("Saving transcription result...")
         progress(90, "Saving transcription result...")
         transcription_file = save_transcription_with_speakers(
-            transcription_result, "result", "transcription.json"
+            transcription_result, video_name, "transcription.json"
         )
 
         status_callback("Transcription complete.")
@@ -75,9 +80,14 @@ def speech2text(video_file, whisper_model_name, source_language, progress=gr.Pro
 
     return status_message, transcription_file
 
-def text_summary(transcription_file, llm_model_name, target_language, selected_prompt):
+def text_summary(llm_model_name, target_language, selected_prompt, video_file):
+    if not video_file:
+        return "No video selected", None
+
+    video_name = os.path.splitext(os.path.basename(video_file))[0]
     prompt_path = f"prompt/{LANGUAGE_MAP.get(target_language, 'en')}/{selected_prompt}.json"
-    summary_file = "result/meeting_summary.json"
+    summary_file = os.path.join("result", video_name, "meeting_summary.json")
+    transcription_file = os.path.join("result", video_name, "transcription.json")
 
     try:
         # Generate summary
@@ -261,7 +271,7 @@ if __name__ == "__main__":
                 text_summary_button = gr.Button("Generate Summary")
                 text_summary_button.click(
                     fn=text_summary,
-                    inputs=[transcription_file, llm_model_input, target_language_input, prompt_name_input],
+                    inputs=[llm_model_input, target_language_input, prompt_name_input, video_input],
                     outputs=[summary_status, summary_file]
                 )
 
