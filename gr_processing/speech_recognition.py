@@ -20,6 +20,8 @@ def run_speech_recognition(audio_file, whisper_arch, language, cuda_available, p
     device = "cuda" if cuda_available else "cpu"
 
     # Notify about model download.
+    if progress_callback:
+        progress_callback(0)
     if status_callback:
         status_callback("Model downloading...")
 
@@ -44,7 +46,7 @@ def run_speech_recognition(audio_file, whisper_arch, language, cuda_available, p
             adjusted_progress = 20 + int(progress * 0.8)
             progress_callback(adjusted_progress)
         if status_callback:
-            status_callback(f"Transcribing... {adjusted_progress}% complete")
+            status_callback(f"Transcribing... ")
 
     transcription_result = model.transcribe(
         audio=audio_file,

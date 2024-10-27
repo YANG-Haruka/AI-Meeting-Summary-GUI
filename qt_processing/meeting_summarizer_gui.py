@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices
-from gui.gui import Ui_MainWindow
+from qt_processing.gui import Ui_MainWindow
 import torch
 import json
 

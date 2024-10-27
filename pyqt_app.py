@@ -1,7 +1,7 @@
 #  pyuic5 -x gui/gui.ui -o gui/gui.py   
 import sys
 from PyQt5.QtWidgets import QApplication
-from gui.meeting_summarizer_gui import MainWindow
+from qt_processing.meeting_summarizer_gui import MainWindow
 
 def main():
     app = QApplication(sys.argv)

@@ -9,4 +9,4 @@ pandas
 ollama
 pyannote.audio
 
-
+gradio

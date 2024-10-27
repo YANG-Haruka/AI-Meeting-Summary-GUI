@@ -4,9 +4,9 @@ import torch
 import os
 import json
 
-from online.ffmpeg_audio_extractor import extract_audio_from_video
-from online.speech_recognition import run_speech_recognition
-from online.summary_thread import generate_summary
+from gr_processing.ffmpeg_audio_extractor import extract_audio_from_video
+from gr_processing.speech_recognition import run_speech_recognition
+from gr_processing.summary_thread import generate_summary
 from summary.ollama_bot import populate_sum_model
 
 torch.backends.cuda.matmul.allow_tf32 = False
@@ -40,41 +40,47 @@ def speech2text(video_file, whisper_model_name, source_language, progress=gr.Pro
 
     try:
         def status_callback(status):
-            nonlocal status_message
+            nonlocal status_message, current_progress
             status_message = status
+            progress(current_progress/100, status_message)
 
+        def transcription_progress_callback(p):
+            nonlocal current_progress
+            current_progress = p
+            progress(current_progress, f"Transcribing audio: {int(p * 100)}%")
+        
+        current_progress = 0
         # Update status to indicate audio extraction
         status_callback("Extracting audio from video...")
-        progress(0, "Extracting audio from video...")
         extract_audio_from_video(
             video_file,
             audio_file,
-            progress_callback=lambda p: progress(p / 100, f"Extracting audio: {p}%")
+            progress_callback=lambda p: progress((p / 100), f"Extracting audio: {p}%")
         )
 
         # Update status to indicate speech recognition
         status_callback("Running speech recognition...")
-        progress(0, "Running speech recognition...")
+        
         transcription_result = run_speech_recognition(
             audio_file,
             whisper_model_name,
             LANGUAGE_MAP.get(source_language),
             torch.cuda.is_available(),
-            progress_callback=lambda p: progress(p / 100, f"Transcribing audio: {p}%"),
+            progress_callback=transcription_progress_callback,
             status_callback=status_callback
         )
 
         # Update status to indicate saving the transcription result
         status_callback("Saving transcription result...")
-        progress(90, "Saving transcription result...")
         transcription_file = save_transcription_with_speakers(
             transcription_result, video_name, "transcription.json"
         )
 
+        current_progress = 100
         status_callback("Transcription complete.")
-        progress(100, "Transcription complete.")
     except Exception as e:
         status_message = f"Error: {e}"
+        progress(0, status_message)
     finally:
         shutil.rmtree(temp_dir)
 
@@ -143,8 +149,7 @@ if __name__ == "__main__":
                 gr.Markdown("## Speech to Text")
                 video_input = gr.Video(
                     label="Upload a video file",
-                    type="file",
-                    format=["mp4", "avi", "mov", "mkv", "flv", "wmv", "webm", "mpeg", "mpg", "3gp", "m4v"]
+                    format=None
                 )
                 whisper_model_input = gr.Dropdown(choices=whisper_models, label="Select a Whisper model", value=whisper_models[0])
                 source_language_input = gr.Dropdown(choices=["English", "日本語", "中文"], label="Source Language", value="English")
