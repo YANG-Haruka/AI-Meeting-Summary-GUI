@@ -1,6 +1,7 @@
 import json
 import ollama
 import os
+from ollama._types import Options
 
 LANGUAGE_MAP = {
     "日本語": "ja",
@@ -74,7 +75,10 @@ def summarize_meeting(segments, model, gpt_dict_raw_text, prompt_path):
     # Send the combined prompt to Ollama
     response = ollama.chat(
         model=model,
-        messages=[{"role": "user", "content": combined_prompt}]
+        messages=[{"role": "user", "content": combined_prompt}],
+        options= Options(
+                        num_ctx=10240,
+                        num_predict=-1)
     )
 
     if response.get('done', False):
@@ -84,15 +88,14 @@ def summarize_meeting(segments, model, gpt_dict_raw_text, prompt_path):
         print("Failed to generate summary.")
         return None
 
-def save_summary_to_json(summary, output_filepath):
-    """Save the generated meeting summary to a JSON file"""
-    result_data = {
-        "meeting_summary": summary
-    }
+def save_summary_to_markdown(summary, output_filepath):
+    """Save the generated meeting summary to a Markdown file"""
+    md_content = "# Meeting Summary\n\n"
+    md_content += summary
 
     try:
         with open(output_filepath, "w", encoding="utf-8") as f:
-            json.dump(result_data, f, ensure_ascii=False, indent=4)
+            f.write(md_content)
         print(f"Meeting summary saved to {output_filepath}")
     except Exception as e:
         print(f"Error saving meeting summary: {e}")
@@ -117,7 +120,7 @@ if __name__ == "__main__":
     # Configuration and file paths
     config_file = "config.json"
     transcription_file = "result/2024-10-24 16-03-39/transcription.json"
-    output_file = "result/2024-10-24 16-03-39/meeting_summary.json"
+    output_file = "result/2024-10-24 16-03-39/meeting_summary.md"
 
     # Load configuration, model, and language
     config = load_config(config_file)
@@ -130,6 +133,6 @@ if __name__ == "__main__":
     
     if segments:
         meeting_summary = summarize_meeting(segments, model, gpt_dict_raw_text, language)
-        save_summary_to_json(meeting_summary, output_file)
+        save_summary_to_markdown(meeting_summary, output_file)
     else:
         print("Failed to load transcription segments or prompt data.")

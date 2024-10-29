@@ -1,4 +1,4 @@
-from summary.ollama_bot import load_segments_from_json, summarize_meeting, save_summary_to_json
+from summary.ollama_bot import load_segments_from_json, summarize_meeting, save_summary_to_markdown
 
 def generate_summary(transcription_file, model, language, prompt_path, output_file):
     """
@@ -20,6 +20,6 @@ def generate_summary(transcription_file, model, language, prompt_path, output_fi
 
     # Generate the summary
     meeting_summary = summarize_meeting(segments, model, " ", prompt_path)
-    save_summary_to_json(meeting_summary, output_file)
+    save_summary_to_markdown(meeting_summary, output_file)
     
     return output_file

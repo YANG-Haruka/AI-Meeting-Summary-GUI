@@ -92,7 +92,7 @@ def text_summary(llm_model_name, target_language, selected_prompt, video_file):
 
     video_name = os.path.splitext(os.path.basename(video_file))[0]
     prompt_path = f"prompt/{LANGUAGE_MAP.get(target_language, 'en')}/{selected_prompt}.json"
-    summary_file = os.path.join("result", video_name, "meeting_summary.json")
+    summary_file = os.path.join("result", video_name, "meeting_summary.md")
     transcription_file = os.path.join("result", video_name, "transcription.json")
 
     try:

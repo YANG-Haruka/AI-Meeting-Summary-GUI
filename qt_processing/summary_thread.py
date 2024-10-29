@@ -1,4 +1,4 @@
-from summary.ollama_bot import load_segments_from_json,summarize_meeting,save_summary_to_json
+from summary.ollama_bot import load_segments_from_json,summarize_meeting,save_summary_to_markdown
 from PyQt5 import QtCore
 
 class SummaryThread(QtCore.QThread):
@@ -22,7 +22,7 @@ class SummaryThread(QtCore.QThread):
 
             self.status_updated.emit("Generating meeting summary...")
             meeting_summary = summarize_meeting(segments, self.model, " ", self.prompt_path)
-            save_summary_to_json(meeting_summary, self.output_file)
+            save_summary_to_markdown(meeting_summary, self.output_file)
 
             self.status_updated.emit("Summary generated and saved.")
             self.progress_updated.emit(100)

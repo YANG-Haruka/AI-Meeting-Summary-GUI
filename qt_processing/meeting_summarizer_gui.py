@@ -219,7 +219,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selected_prompt = self.prompt.currentText()
         prompt_folder = os.path.join("prompt", language)
         prompt_path = os.path.join(prompt_folder, f"{selected_prompt}.json")
-        output_file = os.path.join(self.output_dir, "meeting_summary.json")
+        output_file = os.path.join(self.output_dir, "meeting_summary.md")
 
         self.summary_thread = SummaryThread(transcription_file, model, language, prompt_path, output_file)
         self.summary_thread.progress_updated.connect(self.update_progress)
