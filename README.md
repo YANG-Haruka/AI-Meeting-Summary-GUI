@@ -38,7 +38,8 @@ Run the tool
 python main.py
 ```
 
-
+# PyQT-APP
+![Pyqt-APP](img/pyqt_app.png)
 "Click or drag a video into the 'Open video' button to select a video.  
 
 You can choose a speech recognition model and a summarization model. The summarization model is downloaded from Ollama.  
@@ -54,3 +55,6 @@ Click 'Text Summary' to summarize the transcription results using the selected s
 Audio results are saved in the ```temp``` folder.  
 Transcription and summary results are saved in the ```result/{video_name}``` folder.  
 Click 'Stop' to clear the temp folder."  
+
+# Gradio-APP
+![Gradio-APP](img/gradio_app.png)
