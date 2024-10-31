@@ -103,15 +103,31 @@ def text_summary(llm_model_name, target_language, selected_prompt, video_file):
         return f"Error: {e}", None
 
 def load_prompts(target_language):
-    """Load prompt names based on the selected language."""
+    """Load prompt names based on the selected language, adding default prompts if available."""
     language = LANGUAGE_MAP.get(target_language, "en")
     prompt_folder = os.path.join("prompt", language)
 
+    # Define default prompt filenames based on language
+    default_prompts = {
+        "en": "Default-Meeting Summary.json",
+        "ja": "Default-会議の要約.json",
+        "zh": "默认-会议总结.json"
+    }
+
+    prompts = []
     if os.path.exists(prompt_folder):
+        # Load all available prompts in the folder
         json_files = [f for f in os.listdir(prompt_folder) if f.endswith('.json')]
-        return [os.path.splitext(f)[0] for f in json_files] or ["No prompts available"]
-    else:
-        return ["No prompts available"]
+
+        # Add default prompt first if it exists
+        default_prompt = default_prompts.get(language)
+        if default_prompt in json_files:
+            prompts.append(os.path.splitext(default_prompt)[0])
+
+        # Add the rest of the available prompts, excluding duplicates
+        prompts.extend([os.path.splitext(f)[0] for f in json_files if f != default_prompt])
+
+    return prompts or ["No prompts available"]
 
 def save_prompt(language, prompt_name, prompt_content):
     """Save a new prompt or edit an existing one."""

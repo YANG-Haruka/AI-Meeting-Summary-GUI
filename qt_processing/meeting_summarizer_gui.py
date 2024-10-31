@@ -80,14 +80,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         language = LANGUAGE_MAP.get(target_language, "en")
         prompt_folder = os.path.join("prompt", language)
 
+        # Define default prompts based on language
+        default_prompts = {
+            "en": "Default-Meeting Summary.json",
+            "ja": "Default-会議の要約.json",
+            "zh": "默认-会议总结.json"
+        }
+
         # Clear existing items in the prompt combo box
         self.prompt.clear()
 
-        # Check if the folder exists and read JSON files
+        # Check if the prompt folder exists
         if os.path.exists(prompt_folder):
+            # Retrieve all JSON files in the prompt folder
             json_files = [f for f in os.listdir(prompt_folder) if f.endswith('.json')]
+            
+            # Add default prompt if it exists
+            default_prompt = default_prompts.get(language)
+            if default_prompt in json_files:
+                self.prompt.addItem(os.path.splitext(default_prompt)[0])
+                json_files.remove(default_prompt)  # Prevent duplication in list
+
+            # Add the remaining prompts
             json_files_no_extension = [os.path.splitext(f)[0] for f in json_files]
-            if json_files:
+            if json_files_no_extension:
                 self.prompt.addItems(json_files_no_extension)
             else:
                 self.prompt.addItem("No prompts available")
