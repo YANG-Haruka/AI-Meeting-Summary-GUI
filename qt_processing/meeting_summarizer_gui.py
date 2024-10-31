@@ -50,6 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        self.setWindowTitle("AI-Meeting-Summary-GUI")
 
         # Replace the original button with DragDropButton
         self.video_path = DragDropButton(self.centralwidget)
