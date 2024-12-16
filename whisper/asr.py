@@ -86,6 +86,7 @@ def load_model(whisper_arch,
         "clip_timestamps": "",
         "hallucination_silence_threshold": 0.5,
         "hotwords": "",  
+        "multilingual": True,
     }
 
     if asr_options is not None:

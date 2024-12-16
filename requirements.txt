@@ -1,12 +1,11 @@
 #pyside6-fluent-widgets
 #pyside6
 
-PyQt5
-faster-whisper
-ffmpeg-python
-transformers
-pandas
-ollama
-pyannote.audio
-
-gradio
+PyQt5==5.15.11
+faster-whisper==1.1.0
+ffmpeg-python==0.2.0
+transformers==4.46.3
+pandas==2.2.3
+ollama==0.4.1
+pyannote.audio==3.3.2
+gradio==5.6.0
