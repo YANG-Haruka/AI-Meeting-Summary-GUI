@@ -39,12 +39,38 @@ class DragDropButton(QtWidgets.QPushButton):
             print(f"Dropped video file path: {file_path}")
             self.setText(file_path)
 
+def json_to_srt(json_data, output_file):
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for i, segment in enumerate(json_data["segments"], start=1):
+            start_time = segment["start"]
+            end_time = segment["end"]
+            text = segment["text"]
+            
+            start_srt = convert_time(start_time)
+            end_srt = convert_time(end_time)
+            
+            f.write(f"{i}\n{start_srt} --> {end_srt}\n{text}\n\n")
+
+def convert_time(seconds):
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    milliseconds = int((seconds - int(seconds)) * 1000)
+    return f"{hours:02}:{minutes:02}:{secs:02},{milliseconds:03}"
+
 def save_transcription_with_speakers(transcription_result, output_dir="result/text", output_file="transcription_diarized.json"):
     os.makedirs(output_dir, exist_ok=True)
     file_path = os.path.join(output_dir, output_file)
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(transcription_result, f, ensure_ascii=False, indent=4)
     print(f"Transcription and speaker information saved to: {file_path}")
+
+    output_subtitle_file = output_dir.partition("/")[2] + ".srt"
+    result_json_folder = os.path.join(output_dir, output_file)
+    srt_file = os.path.join(output_dir, output_subtitle_file)
+    with open(result_json_folder, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    json_to_srt(data, srt_file)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):

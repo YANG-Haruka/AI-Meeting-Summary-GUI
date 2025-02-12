@@ -59,12 +59,12 @@ def load_model(whisper_arch,
         tokenizer = None
 
     default_asr_options =  {
-        "beam_size": 5,
-        "best_of": 5,
+        "beam_size": 3,
+        "best_of": 3,
         "patience": 1,
         "length_penalty": 1,
         "repetition_penalty": 1,
-        "no_repeat_ngram_size": 0,
+        "no_repeat_ngram_size": 2,
         "temperatures": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
         "compression_ratio_threshold": 2.4,
         "log_prob_threshold": -1.0,
@@ -82,7 +82,7 @@ def load_model(whisper_arch,
         "append_punctuations": "\"'.。,，!！?？:：”)]}、",
         "suppress_numerals": False,
 
-        "max_new_tokens": 512,
+        "max_new_tokens": 256,
         "clip_timestamps": "",
         "hallucination_silence_threshold": 0.5,
         "hotwords": "",  
@@ -256,7 +256,7 @@ class FasterWhisperPipeline(Pipeline):
         return final_iterator
 
     def transcribe(
-        self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None, chunk_size=30, 
+        self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None, chunk_size=10, 
         print_progress=False, combined_progress=False,progress_callback=None
     ) -> dict:
         if isinstance(audio, str):
